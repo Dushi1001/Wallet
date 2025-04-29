@@ -67,8 +67,14 @@ export default function AuthPage() {
   };
 
   const onRegisterSubmit = (values: z.infer<typeof registerSchema>) => {
-    const { confirmPassword, ...userData } = values;
-    registerMutation.mutate(userData);
+    try {
+      console.log("Form values:", values);
+      const { confirmPassword, ...userData } = values;
+      console.log("Register form submitting data:", userData);
+      registerMutation.mutate(userData);
+    } catch (error) {
+      console.error("Error in register form submission:", error);
+    }
   };
 
   if (user) {
