@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Button Test</title>
+</head>
+<body>
+    <h1>Simple Button Test</h1>
+    <p id="debug">Debug info will appear here</p>
+    <button id="testButton">Click Me</button>
+
+    <script>
+        // Display some debug info
+        var debugElement = document.getElementById('debug');
+        debugElement.innerHTML = "JavaScript is running! Browser: " + navigator.userAgent;
+        
+        // Add event listener to button
+        var button = document.getElementById('testButton');
+        debugElement.innerHTML += "<br>Button found: " + (button ? "Yes" : "No");
+        
+        if (button) {
+            button.onclick = function() {
+                alert('Button clicked using onclick property!');
+                debugElement.innerHTML += "<br>Button was clicked using onclick property!";
+            };
+            
+            debugElement.innerHTML += "<br>onclick handler attached";
+        }
+    </script>
+</body>
+</html>

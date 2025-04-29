@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AUTTOBI Crypto Wallet</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: #333;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    header {
+      background-color: #0a192f;
+      color: white;
+      padding: 1rem 0;
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #64ffda;
+    }
+    .nav-links {
+      display: flex;
+      gap: 20px;
+    }
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+    }
+    .hero {
+      background-color: #0a192f;
+      color: white;
+      padding: 80px 0;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: 3rem;
+      color: #64ffda;
+      margin-bottom: 20px;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 600px;
+      margin: 0 auto 30px;
+    }
+    .btn {
+      display: inline-block;
+      background-color: #64ffda;
+      color: #0a192f;
+      padding: 12px 24px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .features {
+      padding: 80px 0;
+      background-color: #f5f5f5;
+    }
+    .features h2 {
+      text-align: center;
+      margin-bottom: 40px;
+      color: #0a192f;
+    }
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+    .feature-card {
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .feature-card h3 {
+      color: #0a192f;
+      margin-top: 0;
+    }
+    footer {
+      background-color: #0a192f;
+      color: white;
+      padding: 40px 0;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav>
+        <div class="logo">AUTTOBI</div>
+        <div class="nav-links">
+          <a href="#">Home</a>
+          <a href="#">Features</a>
+          <a href="#">About</a>
+          <a href="#">Contact</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <h1>Your Crypto, Your Way</h1>
+      <p>A comprehensive cryptocurrency investment platform designed to simplify crypto portfolio management, market tracking, and user engagement.</p>
+      <a href="#" class="btn">Get Started</a>
+    </div>
+  </section>
+
+  <section class="features">
+    <div class="container">
+      <h2>Key Features</h2>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h3>Portfolio Management</h3>
+          <p>Track and manage your cryptocurrency investments in one place with real-time updates and detailed analytics.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Market Analysis</h3>
+          <p>Access comprehensive market data, trends, and insights to make informed investment decisions.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Secure Wallet</h3>
+          <p>Store your digital assets securely with our state-of-the-art encryption and security protocols.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2023 AUTTOBI. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Simple JavaScript to test functionality
+    document.querySelector('.btn').addEventListener('click', function() {
+      alert('Button clicked! JavaScript is working.');
+    });
+  </script>
+</body>
+</html>
