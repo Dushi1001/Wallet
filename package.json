@@ -37,9 +37,8 @@
   },
   "optionalDependencies": {
     "bufferutil": "^4.0.8"
-=======
+
     "@vitejs/plugin-react": "^4.2.0",
     "vite": "^5.0.0"
->>>>>>> 0b9e7c32108f773123a00893aea256e11920b890
   }
 }
