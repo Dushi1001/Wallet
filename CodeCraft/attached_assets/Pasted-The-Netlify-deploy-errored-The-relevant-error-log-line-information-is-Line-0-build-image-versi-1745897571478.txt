@@ -1,0 +1,81 @@
+The Netlify deploy errored. The relevant error log line information is:
+
+Line 0: build-image version: c38927cce92092afc316743af1f8656a643fa4a5 (noble)
+Line 1: buildbot version: 766d2c1ac7b7596f18b546cb6bf13962d157b033
+Line 2: Fetching cached dependencies
+Line 3: Failed to fetch cache, continuing with build
+Line 4: Starting to prepare the repo for build
+Line 5: No cached dependencies found. Cloning fresh repo
+Line 6: git clone --filter=blob:none https://github.com/Dushi1001/AUTTOBI-
+Line 7: Preparing Git Reference refs/heads/main
+Line 8: Starting to install dependencies
+Line 9: Python version set to 3.13.3
+Line 10: Ruby version set to 2.7.2
+Line 11: [2mmise[0m [34mgo[0m@1.19         install
+Line 12: [2mmise[0m [34mgo[0m@1.19         download go1.19.linux-amd64.tar.gz
+Line 13: [2mmise[0m [34mgo[0m@1.19         checksum go1.19.linux-amd64.tar.gz
+Line 72: ​
+Line 73: [36m$ npm run build[39m
+Line 74: > rest-express@1.0.0 build
+Line 75: > vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
+Line 76: [36mvite v5.4.14 [32mbuilding for production...[36m[39m
+Line 77: transforming...
+Line 78: Browserslist: browsers data (caniuse-lite) is 6 months old. Please run:
+Line 79:   npx update-browserslist-db@latest
+Line 80:   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+Line 81: [32m✓[39m 111 modules transformed.
+Line 82: [31mx[39m Build failed in 1.21s
+Line 83: [31merror during build:
+Line 84: [31m[vite:load-fallback] Could not load /opt/build/repo/client/src/components/layout/sidebar (imported by client/src/pages/supp
+Line 85:     at async open (node:internal/fs/promises:633:25)
+Line 86:     at async Object.readFile (node:internal/fs/promises:1237:14)
+Line 87:     at async Object.load (file:///opt/build/repo/node_modules/vite/dist/node/chunks/dep-CHZK6zbr.js:65249:25)
+Line 88:     at async PluginDriver.hookFirstAndGetPlugin (file:///opt/build/repo/node_modules/rollup/dist/es/shared/node-entry.js:20689:2
+Line 89:     at async file:///opt/build/repo/node_modules/rollup/dist/es/shared/node-entry.js:19809:33
+Line 90:     at async Queue.work (file:///opt/build/repo/node_modules/rollup/dist/es/shared/node-entry.js:20899:32)[39m
+Line 91: [91m[1m​[22m[39m
+Line 92: [91m[1m"build.command" failed                                        [22m[39m
+Line 93: [91m[1m────────────────────────────────────────────────────────────────[22m[39m
+Line 94: ​
+Line 95:   [31m[1mError message[22m[39m
+Line 96:   Command failed with exit code 1: npm run build
+Line 97: ​
+Line 98:   [31m[1mError location[22m[39m
+Line 99:   In build.command from netlify.toml:
+Line 100:   npm run build
+Line 101: ​
+Line 102:   [31m[1mResolved config[22m[39m
+Line 103:   build:
+Line 104:     command: npm run build
+Line 105:     commandOrigin: config
+Line 106:     publish: /opt/build/repo/dist
+Line 107:     publishOrigin: config
+Line 108:   functionsDirectory: /opt/build/repo/netlify/functions
+Line 109:   redirects:
+Line 110: Failed during stage 'building site': Build script returned non-zero exit code: 2
+Line 111:     - from: /api/*
+      status: 200
+      to: /.netlify/functions/api/:splat
+    - from: /*
+      status: 200
+      to: /index.
+Line 112: Build failed due to a user error: Build script returned non-zero exit code: 2
+Line 113: Failing build: Failed to build site
+Line 114: Finished processing build request in 20.342s
+
+Netlify has analyzed the error and provided the following guidance:
+
+### Diagnosis
+Based on the build logs, the error is originating from the Vite build process at line 84:
+```
+[vite:load-fallback] Could not load /opt/build/repo/client/src/components/layout/sidebar
+```
+
+### Solution
+1. Check if the file `/client/src/components/layout/sidebar` exists in the repository and is committed.
+2. Verify that the file `sidebar` is correctly located in the specified path.
+3. If the file exists and the path is correct, ensure that it has the correct export syntax and is free of syntax errors.
+4. If the file is missing or not committed, add and commit it to the repository.
+5. If the file is generated dynamically or intended to be loaded dynamically, update the Vite configuration to handle dynamic imports or code splitting appropriately.
+
+By following these steps, you should be able to address the issue causing the build failure in the Vite build process.
