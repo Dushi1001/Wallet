@@ -1,0 +1,85 @@
+The Netlify deploy errored. The relevant error log line information is:
+
+Line 37:   run `npm fund` for details
+Line 38: 7 moderate severity vulnerabilities
+Line 39: To address issues that do not require attention, run:
+Line 40:   npm audit fix
+Line 41: To address all issues (including breaking changes), run:
+Line 42:   npm audit fix --force
+Line 43: Run `npm audit` for details.
+Line 44: npm packages installed
+Line 45: Successfully installed dependencies
+Line 46: Starting build script
+Line 47: Failed during stage 'building site': Build script returned non-zero exit code: 2
+Line 48: Detected 1 framework(s)
+Line 49: "vite" at version "5.4.14"
+Line 50: Section completed: initializing
+Line 51: [96m[1m​[22m[39m
+Line 52: [96m[1mNetlify Build                                                 [22m[39m
+Line 53: [96m[1m────────────────────────────────────────────────────────────────[22m[39m
+Line 54: [36m[1m​[22m[39m
+Line 55: [36m[1m❯ Version[22m[39m
+Line 56:   @netlify/build 32.1.0
+Line 57: [36m[1m​[22m[39m
+Line 79:   run `npm fund` for details
+Line 80: 7 moderate severity vulnerabilities
+Line 81: To address issues that do not require attention, run:
+Line 82:   npm audit fix
+Line 83: To address all issues (including breaking changes), run:
+Line 84:   npm audit fix --force
+Line 85: Run `npm audit` for details.
+Line 86: > rest-express@1.0.0 build
+Line 87: > vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist && mkdir -p dist
+Line 88: [32m✓[39m 0 modules transformed.
+Line 89: [31mx[39m Build failed in 147ms
+Line 90: [31merror during build:
+Line 91: [31mCould not resolve entry module "index.html".[31m
+Line 92:     at getRollupError (file:///opt/build/repo/node_modules/rollup/dist/es/shared/parseAst.js:396:41)
+Line 93:     at error (file:///opt/build/repo/node_modules/rollup/dist/es/shared/parseAst.js:392:42)
+Line 94:     at ModuleLoader.loadEntryModule (file:///opt/build/repo/node_modules/rollup/dist/es/shared/node-entry.js:20086:20)
+Line 95:     at async Promise.all (index 0)[39m
+Line 96: [91m[1m​[22m[39m
+Line 97: [91m[1m"build.command" failed                                        [22m[39m
+Line 98: [91m[1m────────────────────────────────────────────────────────────────[22m[39m
+Line 99: ​
+Line 100:   [31m[1mError message[22m[39m
+Line 101:   Command failed with exit code 1: cd client && npm install && npm run build
+Line 102: ​
+Line 103:   [31m[1mError location[22m[39m
+Line 104:   In build.command from netlify.toml:
+Line 105:   cd client && npm install && npm run build
+Line 106: ​
+Line 107:   [31m[1mResolved config[22m[39m
+Line 108:   build:
+Line 109:     command: cd client && npm install && npm run build
+Line 110:     commandOrigin: config
+Line 111:     environment:
+Line 112:       - SUNBASE_API_KEY
+Line 113:       - SUNBASE_API_SECRET
+Line 114:       - SUNBASE_API_URL
+Line 115:       - NODE_VERSION
+Line 116:     publish: /opt/build/repo/client/dist
+Line 117:     publishOrigin: config
+Line 118:   functionsDirectory: /opt/build/repo/netlify/functions
+Line 119:   redirects:
+Line 120:     - from: /*
+      status: 200
+      to: /index.html
+  redirectsOrigin: config
+Line 121: Build failed due to a user error: Build script returned non-zero exit code: 2
+Line 122: Failing build: Failed to build site
+Line 123: Finished processing build request in 46.532s
+
+Netlify has analyzed the error and provided the following guidance:
+
+**Diagnosis:**
+The build failed with the error message:
+```
+Could not resolve entry module "index.html".
+```
+
+**Solution:**
+1. The error indicates that the build could not find the entry module "index.html." This could be due to misconfiguration or missing files within the project.
+2. Ensure that the entry file "index.html" exists in the specified location and is correctly referenced in the build configuration.
+3. Verify that the file was committed to the repository and that its path matches the configuration used in the build process. 
+4. Update the build configuration to correctly point to the existing "index.html" file for the build process to resolve the entry module correctly.

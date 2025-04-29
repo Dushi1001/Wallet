@@ -1,0 +1,110 @@
+The Netlify deploy errored. The relevant error log line information is:
+
+Line 101:   npm audit fix --force
+Line 102: Run `npm audit` for details.
+Line 103: > rest-express@1.0.0 build
+Line 104: > vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
+Line 105: [36mvite v5.4.14 [32mbuilding for production...[36m[39m
+Line 106: transforming...
+Line 107: Browserslist: browsers data (caniuse-lite) is 6 months old. Please run:
+Line 108:   npx update-browserslist-db@latest
+Line 109:   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+Line 110: [32m✓[39m 68 modules transformed.
+Line 111: [31mx[39m Build failed in 1.15s
+Line 112: [31merror during build:
+Line 113: [31mCould not resolve "./Sidebar" from "client/src/components/layout/Layout.tsx"[31m
+Line 114: file: [36m/opt/build/repo/client/src/components/layout/Layout.tsx[31m
+Line 115:     at getRollupError (file:///opt/build/repo/node_modules/rollup/dist/es/shared/parseAst.js:396:41)
+Line 116:     at error (file:///opt/build/repo/node_modules/rollup/dist/es/shared/parseAst.js:392:42)
+Line 117:     at ModuleLoader.handleInvalidResolvedId (file:///opt/build/repo/node_modules/rollup/dist/es/shared/node-entry.js:20065:24)
+Line 118:     at file:///opt/build/repo/node_modules/rollup/dist/es/shared/node-entry.js:20025:26[39m
+Line 119: npm warn EBADENGINE Unsupported engine {
+Line 120: npm warn EBADENGINE   package: 'react-router@7.5.3',
+Line 121: npm warn EBADENGINE   required: { node: '>=20.0.0' },
+Line 122: npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '10.8.2' }
+Line 123: npm warn EBADENGINE }
+Line 124: npm warn EBADENGINE Unsupported engine {
+Line 125: npm warn EBADENGINE   package: 'react-router-dom@7.5.3',
+Line 126: npm warn EBADENGINE   required: { node: '>=20.0.0' },
+Line 151: npm warn EBADENGINE }
+Line 152: changed 5 packages, and audited 498 packages in 1s
+Line 153: 66 packages are looking for funding
+Line 154:   run `npm fund` for details
+Line 155: 7 moderate severity vulnerabilities
+Line 156: To address issues that do not require attention, run:
+Line 157:   npm audit fix
+Line 158: To address all issues (including breaking changes), run:
+Line 159:   npm audit fix --force
+Line 160: Run `npm audit` for details.
+Line 161: ✘ [ERROR] Could not resolve "pg-cloudflare"
+Line 162:     node_modules/pg/lib/stream.js:41:41:
+Line 163:       41 │     const { CloudflareSocket } = require('pg-cloudflare')
+Line 164:          ╵                                          ~~~~~~~~~~~~~~~
+Line 165:   You can mark the path "pg-cloudflare" as external to exclude it from the bundle, which will remove this error and leave the un
+Line 166: 1 error
+Line 167: cp: cannot stat 'netlify/functions-dist/*': No such file or directory
+Line 168: Build completed successfully!
+Line 169: ​
+Line 170: [90m(build.command completed in 4.8s)[39m
+Line 171: [96m[1m​[22m[39m
+Line 172: [96m[1mFunctions bundling                                            [22m[39m
+Line 173: [96m[1m────────────────────────────────────────────────────────────────[22m[39m
+Line 174: ​
+Line 175: Packaging Functions from [36mnetlify/functions[39m directory:
+Line 176:  - api.js
+Line 185: ​
+Line 186: [36mSecrets scanning complete. 143 file(s) scanned. No secrets detected in build output or repo code![39m
+Line 187: ​
+Line 188: [90m(Secrets scanning completed in 411ms)[39m
+Line 189: [96m[1m​[22m[39m
+Line 190: [96m[1mDeploy site                                                   [22m[39m
+Line 191: [96m[1m────────────────────────────────────────────────────────────────[22m[39m
+Line 192: ​
+Line 193: Section completed: deploying
+Line 194: [91m[1m​[22m[39m
+Line 195: [91m[1mConfiguration error                                           [22m[39m
+Line 196: [91m[1m────────────────────────────────────────────────────────────────[22m[39m
+Line 197: ​
+Line 198:   [31m[1mError message[22m[39m
+Line 199:   Deploy did not succeed: Deploy directory 'dist/public' does not exist
+Line 200: ​
+Line 201:   [31m[1mResolved config[22m[39m
+Line 202:   build:
+Line 203:     command: bash netlify/build.sh
+Line 204:     commandOrigin: config
+Line 205:     environment:
+Line 206:       - SUNBASE_API_KEY
+Line 207:       - SUNBASE_API_SECRET
+Line 208:       - SUNBASE_API_URL
+Line 209:       - NODE_VERSION
+Line 210:       - NODE_PG_FORCE_NATIVE
+Line 211:     publish: /opt/build/repo/dist/public
+Line 212:     publishOrigin: config
+Line 213:   functionsDirectory: /opt/build/repo/netlify/functions
+Line 214:   redirects:
+Line 215: Failed during stage 'building site': Build script returned non-zero exit code: 2
+Line 216:     - from: /api/*
+      status: 200
+      to: /.netlify/functions/api/:splat
+    - from: /*
+      status: 200
+      to: /index.
+Line 217: Build failed due to a user error: Build script returned non-zero exit code: 2
+Line 218: Failing build: Failed to build site
+Line 219: Finished processing build request in 26.572s
+
+Netlify has analyzed the error and provided the following guidance:
+
+### Diagnosis
+- The build failed with the error: 
+  - `Could not resolve "./Sidebar" from "client/src/components/layout/Layout.tsx"` [#L113](#L113).
+- Another error is related to an unsupported engine due to a Node version mismatch [#L121](#L121).
+
+### Solution
+1. **Resolve Module Resolution Error**:
+   - The error `Could not resolve "./Sidebar" from "client/src/components/layout/Layout.tsx"` suggests that the file "./Sidebar" could not be found from "Layout.tsx".
+   - Verify that the file "Sidebar.tsx" exists in the correct location and was committed to the repository.
+   
+2. **Fix Node Version Mismatch**:
+   - The error `Unsupported engine - package: 'react-router@7.5.3', required: { node: '>=20.0.0' }, current: { node: 'v18.20.8', npm: '10.8.2'` indicates that the current Node version does not meet the required version.
+   - Update the Node version to at least v20.0.0. For guidance on changing Node versions on Netlify, refer to the [documentation](https://docs.netlify.com/configure-builds/manage-dependencies/#node-js-and-javascript).

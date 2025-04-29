@@ -1,0 +1,70 @@
+The Netlify deploy errored. The relevant error log line information is:
+
+Line 76: [36m$ cd client && npm install && npm run build[39m
+Line 77: added 66 packages, and audited 67 packages in 4s
+Line 78: 7 packages are looking for funding
+Line 79:   run `npm fund` for details
+Line 80: 2 moderate severity vulnerabilities
+Line 81: To address all issues (including breaking changes), run:
+Line 82:   npm audit fix --force
+Line 83: Run `npm audit` for details.
+Line 84: > client@0.0.0 build
+Line 85: > vite build
+Line 86: [31mfailed to load config from /opt/build/repo/client/vite.config.ts[39m
+Line 87: [31merror during build:
+Line 88: ReferenceError: defineConfig is not defined
+Line 89:     at file:///opt/build/repo/client/vite.config.ts.timestamp-1745919107485-9fe613487ab23.mjs:2:27
+Line 90:     at ModuleJob.run (node:internal/modules/esm/module_job:263:25)
+Line 91:     at async ModuleLoader.import (node:internal/modules/esm/loader:540:24)
+Line 92:     at async loadConfigFromBundledFile (file:///opt/build/repo/client/node_modules/vite/dist/node/chunks/dep-42dae6ba.js:66595:2
+Line 93:     at async loadConfigFromFile (file:///opt/build/repo/client/node_modules/vite/dist/node/chunks/dep-42dae6ba.js:66444:28)
+Line 94:     at async resolveConfig (file:///opt/build/repo/client/node_modules/vite/dist/node/chunks/dep-42dae6ba.js:66034:28)
+Line 95:     at async build (file:///opt/build/repo/client/node_modules/vite/dist/node/chunks/dep-42dae6ba.js:47930:20)
+Line 96:     at async CAC.<anonymous> (file:///opt/build/repo/client/node_modules/vite/dist/node/cli.js:843:9)[39m
+Line 97: [91m[1m​[22m[39m
+Line 98: [91m[1m"build.command" failed                                        [22m[39m
+Line 99: [91m[1m────────────────────────────────────────────────────────────────[22m[39m
+Line 100: ​
+Line 101:   [31m[1mError message[22m[39m
+Line 102:   Command failed with exit code 1: cd client && npm install && npm run build
+Line 103: ​
+Line 104:   [31m[1mError location[22m[39m
+Line 105:   In build.command from netlify.toml:
+Line 106:   cd client && npm install && npm run build
+Line 107: ​
+Line 108:   [31m[1mResolved config[22m[39m
+Line 109:   build:
+Line 110:     base: /opt/build/repo
+Line 111:     command: cd client && npm install && npm run build
+Line 112:     commandOrigin: config
+Line 113:     environment:
+Line 114:       - SUNBASE_API_KEY
+Line 115:       - SUNBASE_API_SECRET
+Line 116:       - SUNBASE_API_URL
+Line 117:       - NODE_VERSION
+Line 118:     publish: /opt/build/repo/client/dist
+Line 119:     publishOrigin: config
+Line 120:   functionsDirectory: /opt/build/repo/netlify/functions
+Line 121:   redirects:
+Line 122: Failed during stage 'building site': Build script returned non-zero exit code: 2
+Line 123:     - from: /*
+      status: 200
+      to: /index.html
+  redirectsOrigin: config
+Line 124: Build failed due to a user error: Build script returned non-zero exit code: 2
+Line 125: Failing build: Failed to build site
+Line 126: Finished processing build request in 36.486s
+
+Netlify has analyzed the error and provided the following guidance:
+
+**Diagnosis:**
+The build failure is due to a ReferenceError in the Vite configuration file (`vite.config.ts`) at line 88. The error specifically states that `defineConfig` is not defined.
+
+**Solution:**
+1. Verify that the `vite.config.ts` file in the `client` directory of the repository contains a proper configuration using `defineConfig`.
+2. Ensure that the necessary dependencies for Vite are correctly installed by checking the `package.json` file of the project.
+3. If `defineConfig` is coming from an external source or a plugin, make sure the package providing `defineConfig` is listed in the `package.json` dependencies or devDependencies.
+4. If the `defineConfig` function is a custom function, ensure it is defined correctly in the Vite configuration file.
+5. If all the above are correct, consider checking the version compatibility of Vite with the configuration used in `vite.config.ts`.
+
+If needed, consult the [Vite documentation](https://vitejs.dev/config/) to verify the correct usage of `defineConfig` in the Vite configuration file.

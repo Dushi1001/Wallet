@@ -1,0 +1,78 @@
+The Netlify deploy errored. The relevant error log line information is:
+
+Line 77: up to date, audited 513 packages in 867ms
+Line 78: 68 packages are looking for funding
+Line 79:   run `npm fund` for details
+Line 80: 7 moderate severity vulnerabilities
+Line 81: To address issues that do not require attention, run:
+Line 82:   npm audit fix
+Line 83: To address all issues (including breaking changes), run:
+Line 84:   npm audit fix --force
+Line 85: Run `npm audit` for details.
+Line 86: > rest-express@1.0.0 build
+Line 87: > vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist && mkdir -p dist
+Line 88:     vite.config.ts:30:4:
+Line 89:       30 │     outDir: path.resolve(import.meta.dirname, "dist/public"),
+Line 90:          │     ~~~~~~
+Line 91:          ╵     }
+Line 92: [31mfailed to load config from /opt/build/repo/vite.config.ts[39m
+Line 93: [31merror during build:
+Line 94: Error: Build failed with 1 error:
+Line 95: vite.config.ts:30:4: ERROR: Expected "}" but found "outDir"
+Line 96:     at failureErrorWithLog (/opt/build/repo/node_modules/vite/node_modules/esbuild/lib/main.js:1472:15)
+Line 97:     at /opt/build/repo/node_modules/vite/node_modules/esbuild/lib/main.js:945:25
+Line 98:     at runOnEndCallbacks (/opt/build/repo/node_modules/vite/node_modules/esbuild/lib/main.js:1315:45)
+Line 99:     at buildResponseToResult (/opt/build/repo/node_modules/vite/node_modules/esbuild/lib/main.js:943:7)
+Line 100:     at /opt/build/repo/node_modules/vite/node_modules/esbuild/lib/main.js:970:16
+Line 101:     at responseCallbacks.<computed> (/opt/build/repo/node_modules/vite/node_modules/esbuild/lib/main.js:622:9)
+Line 102:     at handleIncomingPacket (/opt/build/repo/node_modules/vite/node_modules/esbuild/lib/main.js:677:12)
+Line 103:     at Socket.readFromStdout (/opt/build/repo/node_modules/vite/node_modules/esbuild/lib/main.js:600:7)
+Line 104:     at Socket.emit (node:events:524:28)
+Line 105:     at addChunk (node:internal/streams/readable:561:12)[39m
+Line 106: [91m[1m​[22m[39m
+Line 107: [91m[1m"build.command" failed                                        [22m[39m
+Line 108: [91m[1m────────────────────────────────────────────────────────────────[22m[39m
+Line 109: ​
+Line 110:   [31m[1mError message[22m[39m
+Line 111:   Command failed with exit code 1: cd client && npm install && npm run build
+Line 112: ​
+Line 113:   [31m[1mError location[22m[39m
+Line 114:   In build.command from netlify.toml:
+Line 115:   cd client && npm install && npm run build
+Line 116: ​
+Line 117:   [31m[1mResolved config[22m[39m
+Line 118:   build:
+Line 119:     command: cd client && npm install && npm run build
+Line 120:     commandOrigin: config
+Line 121:     environment:
+Line 122:       - SUNBASE_API_KEY
+Line 123:       - SUNBASE_API_SECRET
+Line 124:       - SUNBASE_API_URL
+Line 125:       - NODE_VERSION
+Line 126:     publish: /opt/build/repo/client/dist
+Line 127:     publishOrigin: config
+Line 128:   functionsDirectory: /opt/build/repo/netlify/functions
+Line 129:   redirects:
+Line 130:     - from: /*
+      status: 200
+      to: /index.html
+  redirectsOrigin: config
+Line 131: Build failed due to a user error: Build script returned non-zero exit code: 2
+Line 132: Failing build: Failed to build site
+Line 133: Finished processing build request in 29.069s
+Line 134: Failed during stage 'building site': Build script returned non-zero exit code: 2
+
+Netlify has analyzed the error and provided the following guidance:
+
+**Diagnosis:**
+The build failure is due to an error in the `vite.config.ts` file at line 30. The error message states "Expected "}" but found "outDir". This issue is causing the build to fail.
+
+**Solution:**
+1. Navigate to the `vite.config.ts` file in your repository.
+2. Check line 30 in the `vite.config.ts` file to correct the syntax error.
+3. Check for any missing or extra curly braces ("{}") that might be causing this syntax error.
+4. After correcting the syntax error, commit the changes to your repository and trigger a new build to verify if the issue is resolved.
+
+Make sure to review the changes made in the `vite.config.ts` file to ensure that the syntax error is fixed as expected.
+
+If the issue persists, verify that the package used in `vite.config.ts` is in the `package.json` file or that the file was committed to the repository before modifying the external configuration for the package.

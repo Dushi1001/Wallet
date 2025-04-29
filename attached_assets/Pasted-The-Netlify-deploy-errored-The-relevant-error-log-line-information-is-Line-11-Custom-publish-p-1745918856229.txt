@@ -1,0 +1,89 @@
+The Netlify deploy errored. The relevant error log line information is:
+
+Line 11: Custom publish path detected. Proceeding with the specified path: 'client/dist'
+Line 12: Custom build command detected. Proceeding with the specified command: 'cd client && npm install && npm run build'
+Line 13: Starting to install dependencies
+Line 14: Started restoring cached mise cache
+Line 15: Finished restoring cached mise cache
+Line 16: Python version set to 3.13.3
+Line 17: Ruby version set to 2.7.2
+Line 18: Go version set to 1.19
+Line 19: Using PHP version 8.3
+Line 20: Started restoring cached Node.js version
+Line 21: Failed during stage 'building site': Build script returned non-zero exit code: 2
+Line 22: Finished restoring cached Node.js version
+Line 23: Downloading and installing node v20.19.1...
+Line 24: Downloading https://nodejs.org/dist/v20.19.1/node-v20.19.1-linux-x64.tar.xz...
+Line 25: Computing checksum with sha256sum
+Line 26: Checksums matched!
+Line 27: Now using node v20.19.1 (npm v10.8.2)
+Line 28: Enabling Node.js Corepack
+Line 29: Started restoring cached build plugins
+Line 30: Finished restoring cached build plugins
+Line 31: Started restoring cached corepack dependencies
+Line 68: [36m[1m❯ Config file[22m[39m
+Line 69:   /opt/build/repo/netlify.toml
+Line 70: [36m[1m​[22m[39m
+Line 71: [36m[1m❯ Context[22m[39m
+Line 72:   production
+Line 73: [96m[1m​[22m[39m
+Line 74: [96m[1mbuild.command from netlify.toml                               [22m[39m
+Line 75: [96m[1m────────────────────────────────────────────────────────────────[22m[39m
+Line 76: ​
+Line 77: [36m$ cd client && npm install && npm run build[39m
+Line 78: npm error code EJSONPARSE
+Line 79: npm error path /opt/build/repo/client/package.json
+Line 80: npm error JSON.parse Unexpected non-whitespace character after JSON at position 9 while parsing near "\"scripts\": {\n  \"build\
+Line 81: npm error JSON.parse Failed to parse JSON data.
+Line 82: npm error JSON.parse Note: package.json must be actual JSON, not just JavaScript.
+Line 83: npm error A complete log of this run can be found in: /opt/buildhome/.npm/_logs/2025-04-29T09_27_18_455Z-debug-0.log
+Line 84: [91m[1m​[22m[39m
+Line 85: [91m[1m"build.command" failed                                        [22m[39m
+Line 86: [91m[1m────────────────────────────────────────────────────────────────[22m[39m
+Line 87: ​
+Line 88:   [31m[1mError message[22m[39m
+Line 89:   Command failed with exit code 1: cd client && npm install && npm run build
+Line 90: ​
+Line 91:   [31m[1mError location[22m[39m
+Line 92:   In build.command from netlify.toml:
+Line 93:   cd client && npm install && npm run build
+Line 94: ​
+Line 95:   [31m[1mResolved config[22m[39m
+Line 96:   build:
+Line 97:     base: /opt/build/repo
+Line 98:     command: cd client && npm install && npm run build
+Line 99:     commandOrigin: config
+Line 100:     environment:
+Line 101:       - SUNBASE_API_KEY
+Line 102:       - SUNBASE_API_SECRET
+Line 103:       - SUNBASE_API_URL
+Line 104:       - NODE_VERSION
+Line 105:     publish: /opt/build/repo/client/dist
+Line 106:     publishOrigin: config
+Line 107:   functionsDirectory: /opt/build/repo/netlify/functions
+Line 108:   redirects:
+Line 109:     - from: /*
+      status: 200
+      to: /index.html
+  redirectsOrigin: config
+Line 110: Build failed due to a user error: Build script returned non-zero exit code: 2
+Line 111: Failing build: Failed to build site
+Line 112: Finished processing build request in 45.182s
+
+Netlify has analyzed the error and provided the following guidance:
+
+### Diagnosis
+The build failed due to an npm error code `EJSONPARSE`. The error occurred while trying to parse the `package.json` file located in the `client` directory.
+
+The relevant error lines in the build log are:
+- Line 78: `npm error code EJSONPARSE`
+- Line 79: `npm error path /opt/build/repo/client/package.json`
+- Line 80: `npm error JSON.parse Unexpected non-whitespace character after JSON at position 9 while parsing near "\"scripts\": {\\n \"build\\"`
+- Line 81: `npm error JSON.parse Failed to parse JSON data.`
+- Line 82: `npm error JSON.parse Note: package.json must be actual JSON, not just JavaScript.`
+
+### Solution
+1. The error is caused by an issue in the JSON formatting of the `package.json` file in the `client` directory.
+2. To resolve this issue, navigate to the `client` directory and correct the JSON formatting in the `package.json` file.
+3. Verify that the `package.json` file is valid JSON and does not contain any syntax errors.
+4. Once the `package.json` file is corrected, commit the changes to the repository and trigger a new build to ensure the issue is resolved.

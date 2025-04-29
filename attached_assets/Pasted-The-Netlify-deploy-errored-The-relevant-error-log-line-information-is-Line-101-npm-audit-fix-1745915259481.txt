@@ -1,0 +1,73 @@
+The Netlify deploy errored. The relevant error log line information is:
+
+Line 101:   npm audit fix --force
+Line 102: Run `npm audit` for details.
+Line 103: > rest-express@1.0.0 build
+Line 104: > vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
+Line 105: [36mvite v5.4.14 [32mbuilding for production...[36m[39m
+Line 106: transforming...
+Line 107: Browserslist: browsers data (caniuse-lite) is 6 months old. Please run:
+Line 108:   npx update-browserslist-db@latest
+Line 109:   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+Line 110: [32m✓[39m 59 modules transformed.
+Line 111: [31mx[39m Build failed in 1.24s
+Line 112: [31merror during build:
+Line 113: [31mCould not resolve "./Sidebar" from "client/src/components/layout/Layout.tsx"[31m
+Line 114: file: [36m/opt/build/repo/client/src/components/layout/Layout.tsx[31m
+Line 115:     at getRollupError (file:///opt/build/repo/node_modules/rollup/dist/es/shared/parseAst.js:396:41)
+Line 116:     at error (file:///opt/build/repo/node_modules/rollup/dist/es/shared/parseAst.js:392:42)
+Line 117:     at ModuleLoader.handleInvalidResolvedId (file:///opt/build/repo/node_modules/rollup/dist/es/shared/node-entry.js:20065:24)
+Line 118:     at file:///opt/build/repo/node_modules/rollup/dist/es/shared/node-entry.js:20025:26[39m
+Line 119: npm warn EBADENGINE Unsupported engine {
+Line 120: npm warn EBADENGINE   package: 'react-router@7.5.3',
+Line 121: npm warn EBADENGINE   required: { node: '>=20.0.0' },
+Line 122: npm warn EBADENGINE   current: { node: 'v18.20.8', npm: '10.8.2' }
+Line 123: npm warn EBADENGINE }
+Line 124: npm warn EBADENGINE Unsupported engine {
+Line 125: npm warn EBADENGINE   package: 'react-router-dom@7.5.3',
+Line 126: npm warn EBADENGINE   required: { node: '>=20.0.0' },
+Line 151: npm warn EBADENGINE }
+Line 152: changed 5 packages, and audited 498 packages in 1s
+Line 153: 66 packages are looking for funding
+Line 154:   run `npm fund` for details
+Line 155: 7 moderate severity vulnerabilities
+Line 156: To address issues that do not require attention, run:
+Line 157:   npm audit fix
+Line 158: To address all issues (including breaking changes), run:
+Line 159:   npm audit fix --force
+Line 160: Run `npm audit` for details.
+Line 161: ✘ [ERROR] Could not resolve "pg-cloudflare"
+Line 162:     node_modules/pg/lib/stream.js:41:41:
+Line 163:       41 │     const { CloudflareSocket } = require('pg-cloudflare')
+Line 164:          ╵                                          ~~~~~~~~~~~~~~~
+Line 165:   You can mark the path "pg-cloudflare" as external to exclude it from the bundle, which will remove this error and leave the un
+Line 166: 1 error
+Line 167: cp: cannot stat 'netlify/functions-dist/*': No such file or directory
+Line 168: Build completed successfully!
+Line 169: ​
+Line 170: [90m(build.command completed in 5.3s)[39m
+Line 171: [96m[1m​[22m[39m
+Line 172: [96m[1mFunctions bundling                                            [22m[39m
+Line 173: [96m[1m────────────────────────────────────────────────────────────────[22m[39m
+Line 174: ​
+Line 175: Packaging Functions from [36mnetlify/functions[39m directory:
+Line 176:  - api.js
+Line 177:  - hello.js
+Line 178:  - test.js
+Line 179: ​
+Line 180: Failed during stage 'building site': Build script returned non-zero exit code: 2
+
+Netlify has analyzed the error and provided the following guidance:
+
+### Diagnosis
+The build failed due to the following errors:
+1. Line 113: Could not resolve "./Sidebar" from "client/src/components/layout/Layout.tsx".
+2. Lines 123-126: There are unsupported Node versions for the packages react-router and react-router-dom.
+3. Lines 161-166: Could not resolve "pg-cloudflare" which is causing an error in the build.
+
+### Solution
+1. The error on line 113 indicates that the file "./Sidebar" referenced in "client/src/components/layout/Layout.tsx" could not be resolved. To fix this, verify that the file "./Sidebar" exists and is correctly spelled in the specified location.
+   
+2. The unsupported Node versions error for the packages react-router and react-router-dom can be addressed by updating the Node.js version to meet the requirements specified (`node: '>=20.0.0'`). Refer to the documentation for [changing Node versions](https://docs.netlify.com/configure-builds/manage-dependencies/#node-js-and-javascript).
+
+3. To resolve the error related to "pg-cloudflare", mark the path "pg-cloudflare" as external to exclude it from the bundle. Make sure the package "pg-cloudflare" is in your package.json or was committed to the repository. Update the build configuration to handle external dependencies appropriately.
