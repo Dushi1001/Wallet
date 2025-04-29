@@ -1,15 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import logoWithBg from '@/assets/logo-with-bg.png';
 
-// Define slider images and content
+// Define slider content (without images since we're using video)
 const slides = [
   {
     id: 1,
     title: "AUTOMATE YOUR BRILLIANCE",
     subtitle: "Smart cryptocurrency management for everyone",
-    image: "https://images.unsplash.com/photo-1639762681057-408e52192e55?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1332&q=80",
     stats: [
       { value: "4500+", label: "Happy Users" },
       { value: "4.9", label: "Avg Rating" },
@@ -21,7 +20,6 @@ const slides = [
     id: 2,
     title: "MULTI-CHAIN PORTFOLIO",
     subtitle: "Manage all your crypto assets in one place",
-    image: "https://images.unsplash.com/photo-1621932953986-15fcae0575eb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
     stats: [
       { value: "1M+", label: "Transactions" },
       { value: "10+", label: "Blockchains" },
@@ -33,7 +31,6 @@ const slides = [
     id: 3,
     title: "BANK-GRADE SECURITY",
     subtitle: "Your assets are safe with AUTTOBI",
-    image: "https://images.unsplash.com/photo-1635236066449-5631e032053f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
     stats: [
       { value: "100%", label: "Uptime" },
       { value: "2FA", label: "Authentication" },
@@ -45,14 +42,24 @@ const slides = [
 
 export default function SimpleHero() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const slide = slides[currentSlide];
 
   // Auto-slide functionality
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 5000);
+    }, 8000); // Longer duration for video background
     return () => clearInterval(interval);
+  }, []);
+
+  // Play video when component mounts
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.play().catch(error => {
+        console.error("Video autoplay failed:", error);
+      });
+    }
   }, []);
 
   const goToNextSlide = () => {
@@ -65,10 +72,20 @@ export default function SimpleHero() {
 
   return (
     <div className="relative overflow-hidden mb-8 rounded-lg">
-      <div 
-        className="relative w-full h-[50vh] max-h-[600px] bg-cover bg-center transition-all duration-500 ease-in-out"
-        style={{ backgroundImage: `url(${slide.image})` }}
-      >
+      <div className="relative w-full h-[60vh] max-h-[700px]">
+        {/* Video Background */}
+        <video 
+          ref={videoRef}
+          className="absolute inset-0 w-full h-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+        >
+          <source src="/videos/background.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        
         {/* Overlay */}
         <div className="absolute inset-0 bg-gradient-to-r from-[#101650]/90 to-[#101650]/70"></div>
         
