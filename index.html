@@ -256,6 +256,47 @@
       text-decoration: none;
       font-weight: bold;
     }
+    .otp-container {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .otp-input {
+      width: 40px;
+      height: 45px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .dashboard {
+      display: none;
+      padding: 30px 0;
+    }
+    .dashboard-header {
+      background: #0a192f;
+      color: white;
+      padding: 15px 0;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .dashboard-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    .dashboard-card {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .dashboard-card h3 {
+      margin-top: 0;
+      color: #0a192f;
+    }
+    .user-welcome {
+      display: none;
+    }
     /* Mobile responsive styles */
     @media (max-width: 768px) {
       .nav-links {
@@ -286,6 +327,10 @@
           <div class="auth-buttons">
             <a href="#" class="auth-btn login-btn" onclick="document.getElementById('loginModal').style.display='block'">Login</a>
             <a href="#" class="auth-btn signup-btn" onclick="document.getElementById('signupModal').style.display='block'">Sign Up</a>
+          </div>
+          <div class="user-welcome" id="userWelcome">
+            Welcome, <span id="userName"></span> | 
+            <a href="#" onclick="logout()">Logout</a>
           </div>
         </div>
       </nav>
@@ -351,6 +396,34 @@
     </div>
   </section>
 
+  <!-- Dashboard Section (visible after login) -->
+  <section id="dashboard" class="dashboard">
+    <div class="dashboard-header">
+      <div class="container">
+        <h2>Your Crypto Dashboard</h2>
+      </div>
+    </div>
+    <div class="container">
+      <div class="dashboard-content">
+        <div class="dashboard-card">
+          <h3>Portfolio Value</h3>
+          <h2>$12,458.32</h2>
+          <p>+5.4% today</p>
+        </div>
+        <div class="dashboard-card">
+          <h3>Bitcoin (BTC)</h3>
+          <p>$42,853.12</p>
+          <p>+2.3% in 24h</p>
+        </div>
+        <div class="dashboard-card">
+          <h3>Ethereum (ETH)</h3>
+          <p>$3,265.48</p>
+          <p>+1.7% in 24h</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <footer>
     <div class="container">
       <p>&copy; 2023 AUTTOBI. All rights reserved.</p>
@@ -364,7 +437,7 @@
         <h3>Login</h3>
         <span class="close" onclick="document.getElementById('loginModal').style.display='none'">&times;</span>
       </div>
-      <form class="auth-form" onsubmit="alert('Login successful!'); document.getElementById('loginModal').style.display='none'; return false;">
+      <form class="auth-form" id="loginForm">
         <div class="form-group">
           <label for="login-email">Email</label>
           <input type="email" id="login-email" required>
@@ -388,7 +461,7 @@
         <h3>Create Account</h3>
         <span class="close" onclick="document.getElementById('signupModal').style.display='none'">&times;</span>
       </div>
-      <form class="auth-form" onsubmit="alert('Account created successfully!'); document.getElementById('signupModal').style.display='none'; return false;">
+      <form class="auth-form" id="signupForm">
         <div class="form-group">
           <label for="signup-name">Full Name</label>
           <input type="text" id="signup-name" required>
@@ -399,11 +472,11 @@
         </div>
         <div class="form-group">
           <label for="signup-password">Password</label>
-          <input type="password" id="signup-password" required>
+          <input type="password" id="signup-password" required minlength="8">
         </div>
         <div class="form-group">
           <label for="signup-confirm">Confirm Password</label>
-          <input type="password" id="signup-confirm" required>
+          <input type="password" id="signup-confirm" required minlength="8">
         </div>
         <button type="submit" class="btn">Create Account</button>
         <div class="auth-switch">
@@ -413,7 +486,148 @@
     </div>
   </div>
 
+  <!-- OTP Verification Modal -->
+  <div id="otpModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Email Verification</h3>
+        <span class="close" onclick="document.getElementById('otpModal').style.display='none'">&times;</span>
+      </div>
+      <form class="auth-form" id="otpForm">
+        <p>We've sent a verification code to your email. Please enter the 6-digit code below:</p>
+        <div class="form-group">
+          <label for="otp-code">Verification Code</label>
+          <div class="otp-container">
+            <input type="text" maxlength="1" class="otp-input" required>
+            <input type="text" maxlength="1" class="otp-input" required>
+            <input type="text" maxlength="1" class="otp-input" required>
+            <input type="text" maxlength="1" class="otp-input" required>
+            <input type="text" maxlength="1" class="otp-input" required>
+            <input type="text" maxlength="1" class="otp-input" required>
+          </div>
+        </div>
+        <p>Didn't receive the code? <a href="#" onclick="resendOTP()">Resend code</a></p>
+        <button type="submit" class="btn">Verify</button>
+      </form>
+    </div>
+  </div>
+
   <script>
+    // Global variables to store user info
+    let currentUser = null;
+    let pendingEmail = null;
+    let pendingName = null;
+    
+    // Form submission handlers
+    document.getElementById('signupForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = document.getElementById('signup-name').value;
+      const email = document.getElementById('signup-email').value;
+      const password = document.getElementById('signup-password').value;
+      const confirmPassword = document.getElementById('signup-confirm').value;
+      
+      if (password !== confirmPassword) {
+        alert("Passwords don't match. Please try again.");
+        return;
+      }
+      
+      // Store pending signup info
+      pendingEmail = email;
+      pendingName = name;
+      
+      // Show OTP verification modal
+      document.getElementById('signupModal').style.display = 'none';
+      document.getElementById('otpModal').style.display = 'block';
+      
+      // In a real app, this would send an API request to generate and send OTP
+      alert(`Verification code has been sent to ${email}. For this demo, use code 123456.`);
+    });
+    
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value;
+      
+      // For demo purposes, we'll show OTP screen
+      pendingEmail = email;
+      document.getElementById('loginModal').style.display = 'none';
+      document.getElementById('otpModal').style.display = 'block';
+      
+      // In a real app, this would verify credentials first, then send OTP
+      alert(`Verification code has been sent to ${email}. For this demo, use code 123456.`);
+    });
+    
+    document.getElementById('otpForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Get OTP from inputs
+      const inputs = document.querySelectorAll('.otp-input');
+      let otp = '';
+      inputs.forEach(input => {
+        otp += input.value;
+      });
+      
+      // For demo purposes, accept any 6-digit code or 123456
+      if (otp.length === 6) {
+        // In a real app, this would validate the OTP with a backend service
+        completeAuthentication();
+      } else {
+        alert('Please enter a valid 6-digit code.');
+      }
+    });
+    
+    // Focus handling for OTP inputs
+    document.querySelectorAll('.otp-input').forEach((input, index) => {
+      input.addEventListener('keyup', function() {
+        if (this.value.length === 1) {
+          if (index < 5) {
+            document.querySelectorAll('.otp-input')[index + 1].focus();
+          }
+        }
+      });
+    });
+    
+    function resendOTP() {
+      // In a real app, this would make an API call to resend the OTP
+      alert(`A new verification code has been sent to ${pendingEmail}. For this demo, use code 123456.`);
+    }
+    
+    function completeAuthentication() {
+      currentUser = {
+        email: pendingEmail,
+        name: pendingName || pendingEmail.split('@')[0]
+      };
+      
+      // Close the OTP modal
+      document.getElementById('otpModal').style.display = 'none';
+      
+      // Update UI to show logged in state
+      document.getElementById('userName').textContent = currentUser.name;
+      document.querySelector('.auth-buttons').style.display = 'none';
+      document.getElementById('userWelcome').style.display = 'block';
+      
+      // Show the dashboard section
+      document.getElementById('dashboard').style.display = 'block';
+      
+      // Scroll to dashboard
+      document.getElementById('dashboard').scrollIntoView({ behavior: 'smooth' });
+      
+      alert(`Welcome, ${currentUser.name}! You've successfully logged in.`);
+    }
+    
+    function logout() {
+      currentUser = null;
+      
+      // Update UI to show logged out state
+      document.querySelector('.auth-buttons').style.display = 'flex';
+      document.getElementById('userWelcome').style.display = 'none';
+      
+      // Hide the dashboard
+      document.getElementById('dashboard').style.display = 'none';
+      
+      // Return to home
+      document.getElementById('home').scrollIntoView({ behavior: 'smooth' });
+    }
+    
     // Close modals when clicking outside of them
     window.onclick = function(event) {
       if (event.target.className === 'modal') {
