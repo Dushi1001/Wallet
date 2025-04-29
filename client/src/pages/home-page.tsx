@@ -5,6 +5,7 @@ import AssetDistribution from "@/components/dashboard/asset-distribution";
 import WalletManagement from "@/components/dashboard/wallet-management";
 import RecentTransactions from "@/components/dashboard/recent-transactions";
 import MarketOverview from "@/components/dashboard/market-overview";
+import SimpleHero from "@/components/home/simple-hero";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/hooks/use-theme";
 import { MoonIcon, SunIcon, RefreshIcon, PlusIcon } from "@/components/ui/svg-icons";
@@ -38,6 +39,9 @@ export default function HomePage() {
 
   return (
     <AppLayout>
+      {/* Hero Slider */}
+      <SimpleHero />
+      
       {/* Dashboard Header */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-8">
         <div>
