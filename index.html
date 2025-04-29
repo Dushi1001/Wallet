@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AUTTOBI Crypto Wallet</title>
   <style>
+    html {
+      scroll-behavior: smooth;
+    }
     body {
       margin: 0;
       font-family: Arial, sans-serif;
@@ -200,7 +203,7 @@
     <div class="container">
       <h1>Your Crypto, Your Way</h1>
       <p>A comprehensive cryptocurrency investment platform designed to simplify crypto portfolio management, market tracking, and user engagement.</p>
-      <a href="#features" class="btn" onclick="alert('Welcome to AUTTOBI! Let\'s explore our features.')">Get Started</a>
+      <a href="#features" class="btn">Get Started</a>
     </div>
   </section>
 
@@ -236,7 +239,7 @@
     <div class="container">
       <h2>Contact Us</h2>
       <div class="contact-form">
-        <form id="contactForm" onsubmit="event.preventDefault(); alert('Thank you! Your message has been received.');">
+        <form action="https://formspree.io/f/mzbnkzbk" method="POST">
           <div class="form-group">
             <label for="name">Name</label>
             <input type="text" id="name" name="name" required>
