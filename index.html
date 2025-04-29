@@ -9,7 +9,6 @@
       margin: 0;
       font-family: Arial, sans-serif;
       color: #333;
-      scroll-behavior: smooth;
     }
     .container {
       max-width: 1200px;
@@ -201,7 +200,7 @@
     <div class="container">
       <h1>Your Crypto, Your Way</h1>
       <p>A comprehensive cryptocurrency investment platform designed to simplify crypto portfolio management, market tracking, and user engagement.</p>
-      <a href="#features" class="btn">Get Started</a>
+      <a href="#features" class="btn" onclick="alert('Welcome to AUTTOBI! Let\'s explore our features.')">Get Started</a>
     </div>
   </section>
 
@@ -237,7 +236,7 @@
     <div class="container">
       <h2>Contact Us</h2>
       <div class="contact-form">
-        <form id="contactForm">
+        <form id="contactForm" onsubmit="event.preventDefault(); alert('Thank you! Your message has been received.');">
           <div class="form-group">
             <label for="name">Name</label>
             <input type="text" id="name" name="name" required>
@@ -261,61 +260,5 @@
       <p>&copy; 2023 AUTTOBI. All rights reserved.</p>
     </div>
   </footer>
-
-  <script>
-    // Function to scroll to an element
-    function scrollToElement(elementId) {
-      const element = document.getElementById(elementId);
-      if (element) {
-        // First try with smooth scrolling
-        try {
-          element.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
-        } catch (error) {
-          // Fallback method if smooth scrolling fails
-          const y = element.getBoundingClientRect().top + window.pageYOffset;
-          window.scrollTo({
-            top: y,
-            behavior: 'smooth'
-          });
-        }
-      }
-    }
-
-    // Smooth scrolling for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        
-        const targetId = this.getAttribute('href').substring(1);
-        scrollToElement(targetId);
-      });
-    });
-
-    // Form submission
-    document.getElementById('contactForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const name = document.getElementById('name').value;
-      const email = document.getElementById('email').value;
-      const message = document.getElementById('message').value;
-      
-      alert(`Thank you, ${name}! Your message has been received. We'll contact you at ${email} soon.`);
-      this.reset();
-    });
-
-    // Explicitly handle the Get Started button
-    document.querySelector('.hero .btn').addEventListener('click', function(e) {
-      e.preventDefault();
-      // Show an alert
-      alert("Welcome to AUTTOBI! Let's explore our features.");
-      
-      // Force scroll after the alert
-      setTimeout(function() {
-        scrollToElement('features');
-      }, 100);
-    });
-  </script>
 </body>
 </html>
